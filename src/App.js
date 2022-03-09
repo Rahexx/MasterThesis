@@ -1,38 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { ApiConnectorExample } from './components/ApiConntectorExample';
 
-function App() {
-  const [getMessage, setGetMessage] = useState({});
-
-  useEffect(() => {
-    axios
-      .get('http://localhost:5000')
-      .then((response) => {
-        console.log('SUCCESS', response);
-        setGetMessage(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  return (
-    <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>React + Flask Tutorial</p>
-        <div>
-          {getMessage.status === 200 ? (
-            <h3>{getMessage.data.msg}</h3>
-          ) : (
-            <h3>LOADING</h3>
-          )}
-        </div>
-      </header>
-    </div>
-  );
-}
+//Lista rzeczy do zrobienia:
+// 1. Wyczyścić całą aplikacje.
+// 2. Przygotować strukture atomic design.
+// 3.Dodać Reduxa
+// 4. Przygotowanie widoków statycznych
+// 4.1 - Główny widok wyświetlenie wszystkich zdjęć.\
+// 4.2 - Po kliknięciu w zdjęcie redirect do innej strony, użyj reduxa trzymaj tam dane to nie będzie problemu po przejściu na inną strone
+// 4.3 Widok 3D zdjęcia plus po bokach kontrolki na środku obraz
+// 5. Wyświetlenie wszystkich dostępnych zdjęć.
+// 6. Dodanie zdjęć.
+// 7. Pobranie informacji o konkretnym zdjeciu.
+// 8. Stworzenie 2 gałęzi jedno dla każdej z bibliotek 3D
+// 9. Wyświetlenie w każdej bibliotece obrazku w 3D.
+// 10. Zmiana wyświetlania zdjęcia na podstawie kontrolek.
+const App = () => (
+  <div>
+    <ApiConnectorExample />
+  </div>
+);
 
 export default App;
