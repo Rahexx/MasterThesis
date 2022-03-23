@@ -1,16 +1,21 @@
 import React from 'react';
+import { LinkContainer } from 'react-router-bootstrap';
 import { Navbar, Container, Nav, Button } from 'react-bootstrap';
 
 export const MainTemplate = ({ children }) => (
   <>
     <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
       <Container>
-        <Navbar.Brand href='#home'>AppName</Navbar.Brand>
+        <Navbar.Brand href='/'>AppName</Navbar.Brand>
         <Navbar.Toggle aria-controls='responsive-navbar-nav' />
         <Navbar.Collapse id='responsive-navbar-nav'>
           <Nav className='me-auto'>
-            <Nav.Link href='#home'>Home</Nav.Link>
-            <Nav.Link href='#3Dimage'>3D image</Nav.Link>
+            <LinkContainer to='/'>
+              <Nav.Link>Home</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to='/3dImage'>
+              <Nav.Link>3D image</Nav.Link>
+            </LinkContainer>
           </Nav>
           <Navbar.Brand>
             <Button variant='primary'>Upload</Button>{' '}
