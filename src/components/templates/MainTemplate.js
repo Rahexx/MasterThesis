@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Navbar, Container, Nav, Button, Modal, Form } from 'react-bootstrap';
+import { Navbar, Container, Nav, Button } from 'react-bootstrap';
+import { UploadImageForm } from '../UploadImageForm/UploadImageForm';
 
 export const MainTemplate = ({ children }) => {
   const [showUploadFileForm, setShowUploadFileForm] = useState(false);
@@ -39,36 +40,13 @@ export const MainTemplate = ({ children }) => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-
-      <Modal
-        show={showUploadFileForm}
-        onHide={handleCloseUploadForm}
-        backdrop='static'
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Dodawanie zdjęcia z mikroskopu</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className='mb-3' controlId='formBasicEmail'>
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                required
-                type='text'
-                placeholder='Enter image title'
-              />
-            </Form.Group>
-            <Form.Group controlId='formFile' className='mb-3'>
-              <Form.Label>Default file input example</Form.Label>
-              <Form.Control required type='file' />
-            </Form.Group>
-            <Button variant='primary' type='submit'>
-              Submit
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
+      <UploadImageForm
+        isOpen={showUploadFileForm}
+        handleCloseForm={() => handleCloseUploadForm()}
+        submitForm={(e) => {
+          handleSubmit(e);
+        }}
+      />
       <div>{children}</div>
     </>
   );
