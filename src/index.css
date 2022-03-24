@@ -41,3 +41,8 @@ code {
   display: inline-block;
   background-color: #f5f6f7;
 }
+
+.modal-title,
+.modal-body {
+  color: #18191a;
+}
