@@ -24,3 +24,5 @@ yarn-error.log*
 
 #myFile
 toDo.txt
+/api/config.py
+/api/upload
