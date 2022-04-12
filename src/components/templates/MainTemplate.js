@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { UploadImageForm } from '../UploadImageForm/UploadImageForm';
 import { Navigation } from '../Navigation/Navigation';
+import API from '../../config/index';
 import axios from 'axios';
 
 export const MainTemplate = ({ children }) => {
@@ -14,7 +15,7 @@ export const MainTemplate = ({ children }) => {
     formData.append('file', fileToBeSent);
 
     axios
-      .post('https://rahexx-api.herokuapp.com/upload', formData, {
+      .post(`${API}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

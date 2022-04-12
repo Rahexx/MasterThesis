@@ -1,9 +1,9 @@
 import os
 from distutils.log import debug
-from flask import Flask, request, send_from_directory
+from flask import Flask, request, url_for
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = 'upload'
+UPLOAD_FOLDER = './static/upload'
 ABSOLUTE_PATH_UPLOAD_FOLDER = os.getcwd() + '/upload'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 app = Flask(__name__)
@@ -44,12 +44,16 @@ def upload_file():
 
 @app.route('/fetchImages', methods=['GET'])
 def download_file():
-    files = os.listdir('./upload')
+    files = os.listdir('./static/upload')
     filesPathList = []
     for file in files:
-        fullPath = app.config["CLIENT_UPLOAD_FOLDER"] + "/" + file
+        fullPath = "static/upload/" + file
         filesPathList.append(fullPath)
     return {"filesList": filesPathList}
+
+@app.route('/display/<filename>')
+def display_image(filename):
+    return url_for('static', filename='upload/' + filename)
 
 @app.route("/")
 def hello_world():

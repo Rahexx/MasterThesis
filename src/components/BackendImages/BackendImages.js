@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import API from '../../config/index';
 
 export const BackendImage = () => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
     axios
-      .get('https://rahexx-api.herokuapp.com/fetchImages')
+      .get(`${API}/fetchImages`)
       .then((res) => {
         setImages([...res.data.filesList]);
       })
@@ -20,7 +21,7 @@ export const BackendImage = () => {
       {images.map((image) => {
         return (
           <img
-            src={image}
+            src={`${API}/${image}`}
             className='backendImage'
             alt='live organisms under microscope'
           />
