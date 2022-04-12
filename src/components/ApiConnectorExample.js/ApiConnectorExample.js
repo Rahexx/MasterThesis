@@ -6,7 +6,7 @@ export const ApiConnectorExample = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000')
+      .get('https://rahexx-api.herokuapp.com/')
       .then((response) => {
         console.log('SUCCESS', response);
         setGetMessage(response);

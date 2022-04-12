@@ -14,7 +14,7 @@ export const MainTemplate = ({ children }) => {
     formData.append('file', fileToBeSent);
 
     axios
-      .post('http://localhost:5000/upload', formData, {
+      .post('https://rahexx-api.herokuapp.com/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
