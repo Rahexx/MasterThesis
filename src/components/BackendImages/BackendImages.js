@@ -1,32 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import API from '../../config/index';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { API } from '../../config/index';
+import { Button, Stack } from 'react-bootstrap';
+import {
+  handleLoadImages,
+  handleDeleteImage,
+} from '../../actions/handleFetchImages';
 
 export const BackendImage = () => {
-  const [images, setImages] = useState([]);
+  const dispatch = useDispatch();
+  const { listImages } = useSelector((state) => state.images);
 
   useEffect(() => {
-    axios
-      .get(`${API}/fetchImages`)
-      .then((res) => {
-        setImages([...res.data.filesList]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    dispatch(handleLoadImages());
   }, []);
 
   return (
-    <div className='backendImageContainer'>
-      {images.map((image) => {
+    <Stack direction='horizontal' className='mx-5 my-3'>
+      {listImages.map((image) => {
         return (
-          <img
-            src={`${API}/${image}`}
-            className='backendImage'
-            alt='live organisms under microscope'
-          />
+          <Stack gap={3} key={image.path}>
+            <h3>{image.path}</h3>
+            <img
+              src={`${API}/${image.path}`}
+              className='col-3'
+              alt='live organisms under microscope'
+            />
+            <Button
+              variant='danger'
+              className='col-3'
+              onClick={() => dispatch(handleDeleteImage(image.filename))}
+            >
+              Delete
+            </Button>
+          </Stack>
         );
       })}
-    </div>
+    </Stack>
   );
 };

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { UploadImageForm } from '../UploadImageForm/UploadImageForm';
 import { Navigation } from '../Navigation/Navigation';
-import API from '../../config/index';
-import axios from 'axios';
+import { handleUploadImage } from '../../actions/handleFetchImages';
 
 export const MainTemplate = ({ children }) => {
+  const dispatch = useDispatch();
   const [showUploadFileForm, setShowUploadFileForm] = useState(false);
   const [fileToBeSent, setFileToBeSent] = useState(null);
 
@@ -14,18 +15,7 @@ export const MainTemplate = ({ children }) => {
     const formData = new FormData();
     formData.append('file', fileToBeSent);
 
-    axios
-      .post(`${API}/upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    dispatch(handleUploadImage(formData));
   };
 
   const handleCloseUploadForm = () => setShowUploadFileForm(false);

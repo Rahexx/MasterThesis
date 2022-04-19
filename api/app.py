@@ -48,12 +48,16 @@ def download_file():
     filesPathList = []
     for file in files:
         fullPath = "static/upload/" + file
-        filesPathList.append(fullPath)
+        filesPathList.append({'filename': file, 'path': fullPath})
     return {"filesList": filesPathList}
 
-@app.route('/display/<filename>')
+@app.route('/deleteImage/<filename>')
 def display_image(filename):
-    return url_for('static', filename='upload/' + filename)
+    files = os.listdir('./static/upload')
+    if filename not in files:
+        return {'msg': 'File not found'}
+    os.remove(os.path.join('./static/upload/', filename))
+    return {'msg': 'File removed'}
 
 @app.route("/")
 def hello_world():
