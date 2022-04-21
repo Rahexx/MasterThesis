@@ -4,17 +4,18 @@ export const imagesSlice = createSlice({
   name: 'images',
   initialState: {
     listImages: [],
+    activeImage: '',
   },
   reducers: {
-    clearImagesList: (state, action) => {
-      return [];
-    },
     updateImagesList: (state, action) => {
       state.listImages = action.payload;
+    },
+    updateActiveImage: (state, action) => {
+      state.activeImage = action.payload;
     },
   },
 });
 
-export const { updateImagesList, clearImagesList } = imagesSlice.actions;
+export const { updateImagesList, updateActiveImage } = imagesSlice.actions;
 
 export default imagesSlice.reducer;

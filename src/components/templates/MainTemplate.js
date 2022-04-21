@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { UploadImageForm } from '../UploadImageForm/UploadImageForm';
 import { Navigation } from '../Navigation/Navigation';
-import { handleUploadImage } from '../../actions/handleFetchImages';
+import { handleUploadImage } from '../../actions/images';
 
 export const MainTemplate = ({ children }) => {
   const dispatch = useDispatch();
