@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = './static/upload'
 ABSOLUTE_PATH_UPLOAD_FOLDER = os.getcwd() + '/upload'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+ALLOWED_EXTENSIONS = {'json', 'csv'}
 app = Flask(__name__)
 
 # config

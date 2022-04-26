@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import imagesSlice from '../slice/imageSlice';
+import projectSlice from '../slice/projectSlice';
 
 export default configureStore({
   reducer: {
-    images: imagesSlice,
+    projects: projectSlice,
   },
 });

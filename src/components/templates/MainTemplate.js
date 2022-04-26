@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { UploadImageForm } from '../UploadImageForm/UploadImageForm';
 import { Navigation } from '../Navigation/Navigation';
-import { handleUploadImage } from '../../actions/images';
+import { handleUploadProject } from '../../actions/projects';
 
 export const MainTemplate = ({ children }) => {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ export const MainTemplate = ({ children }) => {
     const formData = new FormData();
     formData.append('file', fileToBeSent);
 
-    dispatch(handleUploadImage(formData));
+    dispatch(handleUploadProject(formData));
   };
 
   const handleCloseUploadForm = () => setShowUploadFileForm(false);

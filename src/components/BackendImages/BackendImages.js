@@ -1,41 +1,46 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { API } from '../../config/index';
 import { Button, Container, Row, Col } from 'react-bootstrap';
-import { handleLoadImages, handleDeleteImage } from '../../actions/images';
+import {
+  handleLoadProjects,
+  handleDeleteProject,
+} from '../../actions/projects';
 import { extractFileName } from '../../util/extractFileName';
-import { updateActiveImage } from '../../slice/imageSlice';
+import { updateActiveProject } from '../../slice/projectSlice';
 
 export const BackendImage = () => {
   const dispatch = useDispatch();
-  const { listImages } = useSelector((state) => state.images);
+  const { projectsList } = useSelector((state) => state.projects);
 
   useEffect(() => {
-    dispatch(handleLoadImages());
-  }, [listImages]);
+    dispatch(handleLoadProjects());
+  }, []);
 
   return (
     <Container className='mx-5 my-3'>
       <Row>
-        {listImages.map((image) => {
+        {projectsList.map((project) => {
           return (
-            <Col className='my-3' sm={6} key={image.path}>
+            <Col className='my-3' sm={6} key={project.path}>
+              <h3 className='col-3 my-4'>
+                {extractFileName(project.path).toUpperCase()}
+              </h3>
               <Link to='3dImage'>
-                <img
-                  src={`${API}/${image.path}`}
+                <Button
+                  variant='primary'
                   className='col-3'
-                  alt='live organisms under microscope'
-                  onClick={() => dispatch(updateActiveImage(image.path))}
-                />
+                  onClick={() => dispatch(updateActiveProject(project.path))}
+                >
+                  Przejdź
+                </Button>
               </Link>
-              <h3 className='col-3 my-4'>{extractFileName(image.path)}</h3>
               <Button
                 variant='danger'
-                className='col-3'
-                onClick={() => dispatch(handleDeleteImage(image.filename))}
+                className='col-3 mx-2'
+                onClick={() => dispatch(handleDeleteProject(project.filename))}
               >
-                Delete
+                Usuń
               </Button>
             </Col>
           );

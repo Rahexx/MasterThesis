@@ -10,10 +10,10 @@ export const Navigation = ({ handleOpenForm }) => (
       <Navbar.Collapse id='responsive-navbar-nav'>
         <Nav className='me-auto'>
           <LinkContainer to='/'>
-            <Nav.Link>Home</Nav.Link>
+            <Nav.Link>Strona główna</Nav.Link>
           </LinkContainer>
           <LinkContainer to='/3dImage'>
-            <Nav.Link>3D image</Nav.Link>
+            <Nav.Link>Obraz 3D</Nav.Link>
           </LinkContainer>
         </Nav>
         <Navbar.Brand>
