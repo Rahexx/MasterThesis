@@ -1,4 +1,5 @@
 import os
+import csv
 from distutils.log import debug
 from flask import Flask, request, url_for
 from werkzeug.utils import secure_filename
@@ -52,12 +53,43 @@ def download_file():
     return {"filesList": filesPathList}
 
 @app.route('/deleteImage/<filename>')
-def display_image(filename):
+def delete_image(filename):
     files = os.listdir('./static/upload')
     if filename not in files:
         return {'msg': 'File not found'}
     os.remove(os.path.join('./static/upload/', filename))
     return {'msg': 'File removed'}
+
+class projectRowData:
+    def __init__(self, xPosition, yPosition, zPosition):
+        self.xPosition = xPosition
+        self.yPosition = yPosition
+        self.zPosition = zPosition
+
+@app.route('/fetchData/<filename>')
+def fetchh_data(filename):
+    print(filename)
+    files = os.listdir('./static/upload')
+    if filename not in files:
+        return {'msg': 'File not found'}
+    pathToFail = os.path.join('./static/upload/', filename)
+    prepareXPositionData = []
+    prepareYPositionData = []
+    prepareZPositionData = []
+    with open(pathToFail, newline='') as csvfile:
+        csvReader = csv.reader(csvfile, delimiter=',')
+        lineCount = 0
+        for row in csvReader:
+            if lineCount > 0:
+                prepareXPositionData.append(float(row[0]))
+                prepareYPositionData.append(float(row[1]))
+                prepareZPositionData.append(float(row[2]))
+            lineCount += 1
+    return {
+        'xPosition': prepareXPositionData,
+        'yPosition': prepareYPositionData,
+        'zPosition': prepareZPositionData
+        }
 
 @app.route("/")
 def hello_world():
