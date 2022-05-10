@@ -1,5 +1,6 @@
 import os
 import csv
+import random
 from distutils.log import debug
 from flask import Flask, request, url_for
 from werkzeug.utils import secure_filename
@@ -26,13 +27,10 @@ def upload_file():
     msg = ""
     if request.method == 'POST':
         print('Request', request.files)
-        # check if the post request has the file part
         if 'file' not in request.files:
             msg = "No file part"
             return {"msg": msg}
         file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
         if file.filename == '':
             msg = "No selected file"
             return {"msg": msg}
@@ -60,36 +58,54 @@ def delete_image(filename):
     os.remove(os.path.join('./static/upload/', filename))
     return {'msg': 'File removed'}
 
-class projectRowData:
-    def __init__(self, xPosition, yPosition, zPosition):
-        self.xPosition = xPosition
-        self.yPosition = yPosition
-        self.zPosition = zPosition
+class Trace:
+    xPosition = []
+    yPosition = []
+    zPosition = []
+    def __init__(self, color):
+        self.color = color
+
+def getRandomColor():
+    rColor = str(random.randint(0, 255))
+    gColor = str(random.randint(0, 255))
+    bColor = str(random.randint(0, 255))
+    separator = ','
+    joinColor = separator.join([rColor, gColor, bColor])
+    return 'rgba(' + joinColor + ')'
 
 @app.route('/fetchData/<filename>')
 def fetchh_data(filename):
-    print(filename)
     files = os.listdir('./static/upload')
+
     if filename not in files:
         return {'msg': 'File not found'}
     pathToFail = os.path.join('./static/upload/', filename)
-    prepareXPositionData = []
-    prepareYPositionData = []
-    prepareZPositionData = []
+
     with open(pathToFail, newline='') as csvfile:
         csvReader = csv.reader(csvfile, delimiter=',')
         lineCount = 0
+        groupCount = 0
+        data = []
         for row in csvReader:
-            if lineCount > 0:
-                prepareXPositionData.append(float(row[0]))
-                prepareYPositionData.append(float(row[1]))
-                prepareZPositionData.append(float(row[2]))
+            if row[0] == 'group' or lineCount == 0:
+                if len(data) > 0:
+                    groupCount += 1
+                # to. Do color przypisz wywołanie funkcji będzie to o wiele piękniejsze
+                color = getRandomColor()
+                newTrace = {
+                    'xPosition': [],
+                    'yPosition': [],
+                    'zPosition': [],
+                    'color': color
+                }
+                data.append(newTrace)
+            elif lineCount > 0:
+                data[groupCount]['xPosition'].append(float(row[0]))
+                data[groupCount]['yPosition'].append(float(row[1]))
+                data[groupCount]['zPosition'].append(float(row[2]))
             lineCount += 1
-    return {
-        'xPosition': prepareXPositionData,
-        'yPosition': prepareYPositionData,
-        'zPosition': prepareZPositionData
-        }
+
+    return {'listOfTraces': data}
 
 @app.route("/")
 def hello_world():

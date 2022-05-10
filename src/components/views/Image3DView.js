@@ -9,15 +9,37 @@ const Plot = createPlotlyComponent(Plotly);
 
 export const Image3DView = () => {
   const { activeProject } = useSelector((state) => state.projects);
-  const [fetchData, setFetchData] = useState(null);
+  const [preparedData, setPreparedData] = useState(null);
   // const pathToActiveProject = `${API}/${activeProject}`;
   const splitPathToActiveFile = activeProject.split('/');
   const fileNameWithExtension =
     splitPathToActiveFile[splitPathToActiveFile.length - 1];
 
+  const prepareTraces = (fetchData) => {
+    const listOfTraces = fetchData.listOfTraces;
+
+    const preparedTraces = listOfTraces.map((group) => ({
+      type: 'scatter3d',
+      mode: 'markers',
+      x: group.xPosition,
+      y: group.yPosition,
+      z: group.zPosition,
+      marker: {
+        size: 12,
+        line: {
+          color: group.color,
+          width: 0.5,
+        },
+        opacity: 1,
+      },
+    }));
+
+    setPreparedData(preparedTraces);
+  };
+
   useEffect(() => {
     axios.get(`${LocalAPI}/fetchData/${fileNameWithExtension}`).then((res) => {
-      setFetchData(res.data);
+      prepareTraces(res.data);
     });
   }, []);
 
@@ -27,28 +49,9 @@ export const Image3DView = () => {
         <h1 className='mainViewHeader'>Strona 3D</h1>
         <div className='mx-5 my-3'>
           {activeProject && <h2>{activeProject}</h2>}
-          {fetchData && (
+          {preparedData && (
             <Plot
-              data={[
-                {
-                  type: 'scatter3d',
-                  mode: 'markers',
-                  x: fetchData.xPosition,
-                  y: fetchData.yPosition,
-                  z: fetchData.zPosition,
-                  marker: {
-                    size: 12,
-                    line: {
-                      color: [
-                        'rgba(217, 217, 217, 0.14)',
-                        'rgba(117, 217, 57, 0.14)',
-                      ],
-                      width: 0.5,
-                    },
-                    opacity: 0.8,
-                  },
-                },
-              ]}
+              data={preparedData}
               layout={{
                 height: 800,
                 width: 1200,
