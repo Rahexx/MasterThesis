@@ -46,3 +46,8 @@ code {
 .modal-body {
   color: #18191a;
 }
+
+.highChartComponent {
+  height: 600px;
+  width: 100%;
+}

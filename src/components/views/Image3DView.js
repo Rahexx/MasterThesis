@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { fetchTraces } from '../../api/projects';
 import { PlotlyChart } from '../PlotlyChart/PlotlyChart';
+import { HighChart } from '../HighChart/HighChart';
 import { package3D } from '../../util/simpleTypes';
 
 export const Image3DView = () => {
@@ -29,6 +30,12 @@ export const Image3DView = () => {
         <div className='mx-5 my-3'>
           {preparedData && activePackage === package3D.plotly && (
             <PlotlyChart
+              listOfTraces={preparedData}
+              projectName={fileNameWithExtension}
+            />
+          )}
+          {preparedData && activePackage === package3D.highChart && (
+            <HighChart
               listOfTraces={preparedData}
               projectName={fileNameWithExtension}
             />
