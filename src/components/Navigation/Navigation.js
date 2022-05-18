@@ -21,7 +21,7 @@ export const Navigation = ({ handleOpenForm }) => {
               <Nav.Link>Strona główna</Nav.Link>
             </LinkContainer>
             <LinkContainer to='/3dImage'>
-              <Nav.Link>Obraz 3D</Nav.Link>
+              <Nav.Link>Wykres 3D</Nav.Link>
             </LinkContainer>
           </Nav>
           <Navbar.Brand>
@@ -39,7 +39,7 @@ export const Navigation = ({ handleOpenForm }) => {
               ))}
             </ButtonGroup>
             <Button variant='primary' onClick={handleOpenForm}>
-              Dodaj zdjęcie
+              Dodaj projekt
             </Button>
           </Navbar.Brand>
         </Navbar.Collapse>
