@@ -24,16 +24,16 @@ export const HighChart = ({ listOfTraces, projectName }) => {
     const preparedChart = {
       chart: {
         renderTo: 'container',
-        margin: 100,
+        margin: 175,
         type: 'scatter3d',
-        animation: false,
+        animation: true,
         height: '800px',
         options3d: {
           enabled: true,
-          alpha: 10,
-          beta: 30,
-          depth: 250,
-          viewDistance: 5,
+          alpha: 15,
+          beta: 20,
+          depth: 350,
+          viewDistance: 250,
           fitToPlot: false,
           frame: {
             bottom: { size: 1, color: 'rgba(0,0,0,0.02)' },
