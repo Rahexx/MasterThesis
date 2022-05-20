@@ -6,7 +6,7 @@ import {
   handleLoadProjects,
   handleDeleteProject,
 } from '../../actions/projects';
-import { extractFileName } from '../../util/extractFileName';
+import { extractFileNameWithExtension } from '../../util/extractFileName';
 import { updateActiveProject } from '../../slice/projectSlice';
 
 export const BackendImage = () => {
@@ -24,7 +24,7 @@ export const BackendImage = () => {
           return (
             <Col className='my-3' sm={6} key={project.path}>
               <h3 className='col-3 my-4'>
-                {extractFileName(project.path).toUpperCase()}
+                {extractFileNameWithExtension(project.path).toUpperCase()}
               </h3>
               <Link to='3dImage'>
                 <Button

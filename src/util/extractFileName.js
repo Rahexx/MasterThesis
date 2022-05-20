@@ -5,3 +5,9 @@ export const extractFileName = (filename) => {
   const extractFileName = pathWithoutExtension.substring(lastSlashIndex + 1);
   return extractFileName;
 };
+
+export const extractFileNameWithExtension = (path) => {
+  const splitPath = path.split('/')
+  const filename = splitPath[splitPath.length - 1]
+  return filename
+}

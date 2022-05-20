@@ -1,6 +1,7 @@
 import os
 import csv
 import random
+import json
 from distutils.log import debug
 from flask import Flask, request, url_for
 from werkzeug.utils import secure_filename
@@ -73,24 +74,15 @@ def getRandomColor():
     joinColor = separator.join([rColor, gColor, bColor])
     return 'rgba(' + joinColor + ')'
 
-@app.route('/fetchData/<filename>')
-def fetchh_data(filename):
-    files = os.listdir('./static/upload')
+def getDataFromJson(children):
+    data = []
+    groupCount = 0
 
-    if filename not in files:
-        return {'msg': 'File not found'}
-    pathToFail = os.path.join('./static/upload/', filename)
-
-    with open(pathToFail, newline='') as csvfile:
-        csvReader = csv.reader(csvfile, delimiter=',')
-        lineCount = 0
-        groupCount = 0
-        data = []
-        for row in csvReader:
-            if row[0] == 'group' or lineCount == 0:
+    for i in children:
+        if len(i["children"]) != 1 :
+            for child in i["children"]:
                 if len(data) > 0:
                     groupCount += 1
-                # to. Do color przypisz wywołanie funkcji będzie to o wiele piękniejsze
                 color = getRandomColor()
                 newTrace = {
                     'xPosition': [],
@@ -99,12 +91,52 @@ def fetchh_data(filename):
                     'color': color
                 }
                 data.append(newTrace)
-            elif lineCount > 0:
-                data[groupCount]['xPosition'].append(float(row[0]))
-                data[groupCount]['yPosition'].append(float(row[1]))
-                data[groupCount]['zPosition'].append(float(row[2]))
-            lineCount += 1
 
+                for childrenData in child["children"]:
+                    data[groupCount]['xPosition'].append(childrenData[0])
+                    data[groupCount]['yPosition'].append(childrenData[1])
+                    data[groupCount]['zPosition'].append(childrenData[2])
+    return data
+
+@app.route('/fetchData/<filename>')
+def fetchh_data(filename):
+    files = os.listdir('./static/upload')
+
+    if filename not in files:
+        return {'msg': 'File not found'}
+    pathToFail = os.path.join('./static/upload/', filename)
+
+    if filename.endswith('.csv'):
+        with open(pathToFail, newline='') as csvfile:
+            csvReader = csv.reader(csvfile, delimiter=',')
+            lineCount = 0
+            groupCount = 0
+            data = []
+            for row in csvReader:
+                if row[0] == 'group' or lineCount == 0:
+                    if len(data) > 0:
+                        groupCount += 1
+
+                    color = getRandomColor()
+                    newTrace = {
+                        'xPosition': [],
+                        'yPosition': [],
+                        'zPosition': [],
+                        'color': color
+                    }
+                    data.append(newTrace)
+                elif lineCount > 0:
+                    data[groupCount]['xPosition'].append(float(row[0]))
+                    data[groupCount]['yPosition'].append(float(row[1]))
+                    data[groupCount]['zPosition'].append(float(row[2]))
+                lineCount += 1
+    elif filename.endswith('.json'):
+        f = open(pathToFail)
+        file = json.load(f)
+        for i in file:
+            data = getDataFromJson(i["children"])
+
+    print(len(data))
     return {'listOfTraces': data}
 
 @app.route("/")
